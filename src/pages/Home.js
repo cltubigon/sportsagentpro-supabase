@@ -1,35 +1,22 @@
-import { useEffect } from "react"
-import supabase from "../config/supabaseClient"
-import { useState } from "react"
+import { Container } from "@chakra-ui/react"
+import Content from "../components/Home/Content"
+import HeroSection from "../components/Home/HeroSection/HeroSection"
+import Footer from "../components/layouts/Footer"
 
 const Home = () => {
-  const [athletes, setAthletes] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [page, setPage] = useState(1)
+  const containerStyle = {
+    maxW: "1440px",
+    px: 0,
+  }
 
-  useEffect(() => {
-    const fetchAthletes = async () => {
-      const { data, error } = await supabase
-        .from("athlete")
-        .select("*")
-        .range(page, page + 10)
-        .order("id", { ascending: false })
-      if (data) {
-        setAthletes(data)
-      } else if (error) {
-        console.log("error: ", error)
-      }
-    }
-    fetchAthletes()
-  }, [])
-
-  useEffect(() => {
-    console.log("athletes: ", athletes)
-  }, [athletes])
   return (
-    <div className="page home">
-      <h2>Home</h2>
-    </div>
+    <>
+      <Container sx={containerStyle} tabIndex={0}>
+        <HeroSection />
+        <Content />
+      </Container>
+      <Footer />
+    </>
   )
 }
 
